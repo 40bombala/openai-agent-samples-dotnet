@@ -2,4 +2,4 @@
 
 using Shared.Interfaces;
 
-public interface IKnowledgeOracleAgent : IAgent { }
+public interface IKnowledgeOracleAgent : IAgent<string> { }

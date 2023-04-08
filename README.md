@@ -1,4 +1,4 @@
-# # Prompt Engineering Patterns - OpenAI .NET
+# # Prompt Engineering Patterns - OpenAI Agents for .NET
 
 This repository contains a collection of examples demonstrating how to utilize OpenAI APIs in .NET 7.0 using the
 Betalgo.OpenAI.GPT3 package. The solution demonstrates a simple implementation of multiple AI agents that can perform

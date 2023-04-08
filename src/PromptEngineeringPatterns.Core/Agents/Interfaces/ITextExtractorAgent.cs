@@ -2,4 +2,4 @@
 
 using Shared.Interfaces;
 
-public interface ITextExtractorAgent : IAgent { }
+public interface ITextExtractorAgent : IAgent<string> { }

@@ -16,6 +16,10 @@ public abstract class AgentBase
         _context = context;
     }
 
+    protected virtual float? Temperature { get; }
+
+    protected string Model { get; init; } = Models.ChatGpt3_5Turbo;
+
     protected async Task<string> GetResponse(string message)
     {
         ChatCompletionCreateResponse completionResult = await _openAiService.ChatCompletion.CreateCompletion(
@@ -26,12 +30,35 @@ public abstract class AgentBase
                     ChatMessage.FromSystem(_context),
                     ChatMessage.FromUser(message)
                 },
-                Model = Models.ChatGpt3_5Turbo
+                Model = Model,
+                Temperature = Temperature
             });
 
         return completionResult switch
         {
             { Successful: true } => completionResult.Choices.First().Message.Content,
+            var _ => throw new Exception("Failed to get response from OpenAI")
+        };
+    }
+
+    protected async Task<ChatMessage> GetResponse(IEnumerable<ChatMessage> messages)
+    {
+        var chatMessages = new List<ChatMessage>
+        {
+            ChatMessage.FromSystem(_context)
+        };
+
+        ChatCompletionCreateResponse completionResult = await _openAiService.ChatCompletion.CreateCompletion(
+            new ChatCompletionCreateRequest
+            {
+                Messages = chatMessages.Concat(messages).ToList(),
+                Model = Model,
+                Temperature = Temperature
+            });
+
+        return completionResult switch
+        {
+            { Successful: true } => completionResult.Choices.First().Message,
             var _ => throw new Exception("Failed to get response from OpenAI")
         };
     }

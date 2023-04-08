@@ -1,6 +1,6 @@
 ﻿namespace PromptEngineeringPatterns.Core.Agents.Shared.Interfaces;
 
-public interface IAgent
+public interface IAgent<T> where T : notnull
 {
-    public Task<string> Ask(string message);
+    public Task<T> Ask(string message);
 }

@@ -2,6 +2,7 @@
 
 using Interfaces;
 using OpenAI.GPT3.Interfaces;
+using OpenAI.GPT3.ObjectModels;
 using Shared;
 
 public class SentimentAnalyserAgent : AgentBase, ISentimentAnalyserAgent
@@ -17,10 +18,15 @@ public class SentimentAnalyserAgent : AgentBase, ISentimentAnalyserAgent
 
         """;
 
-    public SentimentAnalyserAgent(IOpenAIService openAiService) : base(openAiService, Context) { }
-
-    public async Task<string> Ask(string message)
+    public SentimentAnalyserAgent(IOpenAIService openAiService) : base(openAiService, Context)
     {
-        return await GetResponse(message);
+        Model = Models.Gpt_4;
+    }
+
+    public async Task<float> Ask(string message)
+    {
+        string response = await GetResponse(message);
+
+        return float.Parse(response);
     }
 }

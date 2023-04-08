@@ -2,4 +2,4 @@
 
 using Shared.Interfaces;
 
-public interface ISentimentAnalyserAgent : IAgent { }
+public interface ISentimentAnalyserAgent : IAgent<float> { }

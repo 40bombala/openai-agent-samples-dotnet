@@ -1,0 +1,40 @@
+@page "/htmltextscraper"
+@using PromptEngineeringPatterns.Core.Agents.Interfaces
+@inject ITextExtractorAgent extractorAgent
+
+<h3>HTML Text Scraper</h3>
+
+<div class="row">
+    <div class="col-md-6">
+        <textarea @ref="_leftTextArea" @oninput="HandleInput" class="form-control" rows="10" placeholder="Paste your HTML here"></textarea>
+    </div>
+    <div class="col-md-6">
+        <div class="loading-container">
+            <textarea @bind="_extractedText" class="form-control" rows="10" readonly></textarea>
+            <div class="spinner-border text-primary loading-spinner" role="status" hidden="@(!_isLoading)">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private ElementReference _leftTextArea;
+    private string? _extractedText;
+    private bool _isLoading;
+
+    private async Task HandleInput(ChangeEventArgs e)
+    {
+        _extractedText = string.Empty;
+        var pastedHtml = e.Value?.ToString();
+        _isLoading = true;
+
+        if (!string.IsNullOrWhiteSpace(pastedHtml))
+        {
+            _extractedText = await extractorAgent.Ask(pastedHtml);
+        }
+
+        _isLoading = false;
+    }
+
+}

@@ -2,4 +2,4 @@
 
 using Shared.Interfaces;
 
-public interface IIntentClassifierAgent : IAgent { }
+public interface IIntentClassifierAgent : IAgent<string> { }

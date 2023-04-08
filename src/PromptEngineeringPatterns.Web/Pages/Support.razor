@@ -1,0 +1,40 @@
+@page "/support"
+@using PromptEngineeringPatterns.Core.Agents.Interfaces
+@inject ISupportAgent supportAgent
+
+<h3>Support Agent - Answer E-mail</h3>
+
+<div class="row">
+    <div class="col-md-6">
+        <textarea @ref="_emailTextArea" @oninput="HandleInput" class="form-control" rows="10" placeholder="Paste your E-mail here"></textarea>
+    </div>
+    <div class="col-md-6">
+        <div class="loading-container">
+            <textarea @bind="_emailResponseTextArea" class="form-control" rows="10" readonly></textarea>
+            <div class="spinner-border text-primary loading-spinner" role="status" hidden="@(!_isLoading)">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private ElementReference _emailTextArea;
+    private string? _emailResponseTextArea;
+    private bool _isLoading;
+
+    private async Task HandleInput(ChangeEventArgs e)
+    {
+        _emailResponseTextArea = string.Empty;
+        var customerEmail = e.Value?.ToString();
+        _isLoading = true;
+
+        if (!string.IsNullOrWhiteSpace(customerEmail))
+        {
+            _emailResponseTextArea = await supportAgent.Ask(customerEmail);
+        }
+
+        _isLoading = false;
+    }
+
+}

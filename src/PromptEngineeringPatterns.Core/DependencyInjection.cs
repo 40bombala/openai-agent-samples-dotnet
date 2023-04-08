@@ -14,6 +14,7 @@ public static class DependencyInjection
         services.AddScoped<ITextExtractorAgent, TextExtractorAgent>();
         services.AddScoped<IKnowledgeOracleAgent, KnowledgeOracleAgent>();
         services.AddScoped<ISentimentAnalyserAgent, SentimentAnalyserAgent>();
+        services.AddScoped<ISupportAgent, SupportAgent>();
 
         return services;
     }

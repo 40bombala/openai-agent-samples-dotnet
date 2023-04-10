@@ -57,16 +57,17 @@ var intentResult = await _intentClassifierAgent.Ask("What is the weather like to
 var extractedText = await _textExtractorAgent.Ask("<html><body><p>Hello, World!</p></body></html>");
 ``` 
 
-## Running the Console App
+## Running the Web App
 
-To run the Console app, navigate to the `src/PromptEngineeringPatterns.Console` folder and execute the following
+To run the Web app, navigate to the `src/PromptEngineeringPatterns.Web` folder and given the `appsettings.json` file is
+configured execute the following
 command:
 
 ```bash
 dotnet run 
 ```
 
-## Documentation
+## References
 
-For more detailed documentation on how to use the Betalgo.OpenAI.GPT3 package, please visit
+For more detailed documentation on how to use their Betalgo.OpenAI.GPT3 package, please visit
 the [official repository](https://github.com/betalgo/openai).

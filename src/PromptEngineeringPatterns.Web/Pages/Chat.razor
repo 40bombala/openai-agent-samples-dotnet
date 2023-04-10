@@ -146,7 +146,17 @@ else
 
             if (sentiment > -0.5f)
             {
+                var classifications = await IntentClassifierAgent.Ask(message);
+
                 var response = await KnowledgeOracleAgent.Ask(message);
+
+                foreach (var classification in classifications)
+                {
+                    if (classification.Equals("CREDIT_CARD_APPLICATION", StringComparison.OrdinalIgnoreCase))
+                    {
+                        AddMessage(_assistantName, "For more credit card information, please visit https://www.fortybank.com/credit-cards");
+                    }
+                }
 
                 AddMessage(_assistantName, response);
             }

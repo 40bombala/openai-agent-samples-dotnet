@@ -17,9 +17,10 @@ public class TextExtractorAgent : AgentBase, ITextExtractorAgent
 
         """;
 
-    public TextExtractorAgent(IOpenAIService openAiService) : base(openAiService, Context) { }
-
-    protected override float? Temperature => 0;
+    public TextExtractorAgent(IOpenAIService openAiService) : base(openAiService, Context)
+    {
+        Temperature = 0f;
+    }
 
     public async Task<string> Ask(string message)
     {

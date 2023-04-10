@@ -1,7 +1,9 @@
 ﻿namespace PromptEngineeringPatterns.Core.Agents;
 
+using System.Text.Json;
 using Interfaces;
 using OpenAI.GPT3.Interfaces;
+using OpenAI.GPT3.ObjectModels;
 using Shared;
 
 public class IntentClassifierAgent : AgentBase, IIntentClassifierAgent
@@ -24,15 +26,20 @@ public class IntentClassifierAgent : AgentBase, IIntentClassifierAgent
         UNCATEGORIZED
 
         When you receive a user message, carefully determine which of the provided intent types it corresponds to and respond with that intent type.
-        If none of the intents match, respond with 'UNCATEGORIZED'. The matched intent type should be returned as a string inside a JSON array, e.g. ['CHECK_BALANCE'].
+        If none of the intents match, respond with ["UNCATEGORIZED"]. The matched intent type should be returned as a string inside a JSON array, e.g. ["CHECK_BALANCE"].
         Remember, your main goal is to classify user messages with a high level of accuracy.
 
         """;
 
-    public IntentClassifierAgent(IOpenAIService openAiService) : base(openAiService, Context) { }
-
-    public async Task<string> Ask(string message)
+    public IntentClassifierAgent(IOpenAIService openAiService) : base(openAiService, Context)
     {
-        return await GetResponse(message);
+        Model = Models.Gpt_4;
+    }
+
+    public async Task<List<string>> Ask(string message)
+    {
+        string classificationsStr = await GetResponse(message);
+
+        return JsonSerializer.Deserialize<List<string>>(classificationsStr) ?? new List<string>();
     }
 }

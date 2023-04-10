@@ -16,7 +16,7 @@ public abstract class AgentBase
         _context = context;
     }
 
-    protected virtual float? Temperature { get; }
+    protected float? Temperature { get; init; }
 
     protected string Model { get; init; } = Models.ChatGpt3_5Turbo;
 

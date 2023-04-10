@@ -59,7 +59,17 @@ public class SupportAgent : AgentBase, ISupportAgent
         while (!agentResponse.Content.Contains("[Finalized]"));
 
         _chatMessages.Add(agentResponse);
+        await WriteMessageLogToDisk();
 
-        return agentResponse.Content.Replace(oldValue: "[Finalized]", string.Empty);
+        return agentResponse.Content.Replace(oldValue: "[Finalized]", string.Empty).TrimStart();
+    }
+
+    private async Task WriteMessageLogToDisk()
+    {
+        string log = string.Join(
+            Environment.NewLine,
+            _chatMessages.Select(message => $"{message.Role}: {message.Content}\n"));
+
+        await File.WriteAllTextAsync(path: "message_log.txt", log);
     }
 }
